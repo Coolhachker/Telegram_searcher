@@ -1,9 +1,15 @@
+###################################################################################
+###################################################################################
+# Создать в текущей папке .env файл и записать в него ключ значение BOT_TOKEN=""###
+###################################################################################
+###################################################################################
 from aiogram import Dispatcher, Bot
 import os
 from dotenv import load_dotenv
 
 from src.tg_bot.handlers import commands, texts
 from src.tg_bot.middlewarse.middleware_filter_from_other_users import MiddlewareFilterForAdmin
+from src.tg_bot.middlewarse.middleware_on_callback_request import MiddlewareOnCallback
 
 load_dotenv()
 
@@ -20,6 +26,7 @@ class BotEngine:
 
     async def run(self):
         self.dispatcher.message.middleware(MiddlewareFilterForAdmin(self.bot))
+        self.dispatcher.message.middleware(MiddlewareOnCallback(self.bot))
         await self.dispatcher.start_polling(self.bot)
 
 
