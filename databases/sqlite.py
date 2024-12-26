@@ -46,5 +46,8 @@ class SQLite3Client:
         self.cursor.execute("""SELECT * FROM key_words""")
         return self.cursor.fetchall()
 
+    def update_key_word(self, key_word: str, new_key_word: str):
+        self.cursor.execute(f"""UPDATE key_words SET word = "{new_key_word}" WHERE word = "{key_word}" """)
+        self.connection.commit()
 
 sqlite3_client = SQLite3Client()

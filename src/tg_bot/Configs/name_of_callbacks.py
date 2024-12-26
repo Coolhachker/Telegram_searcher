@@ -17,3 +17,5 @@ class NameOfCallbacks:
     callback_for_right_button_key_words = "right_button_key_words="
     callback_for_left_button_key_words = 'left_button_key_words='
     callback_for_delete_key_word_index_button = 'delete_key_word_index='
+
+    callback_for_change_key_word_index_button = 'change_key_word_index='

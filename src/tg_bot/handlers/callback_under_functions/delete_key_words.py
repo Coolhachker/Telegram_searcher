@@ -21,7 +21,7 @@ def return_delete_functions_for_key_words(dispatcher: Dispatcher, bot: Bot):
         key_words = sqlite3_client.get_key_words()
         buttons: list[InlineKeyboardButton] = []
         builder = InlineKeyboardBuilder()
-        button_comeback = InlineKeyboardButton(text=NamesOfButtons.comeback_button, callback_data=NameOfCallbacks.callback_for_comeback_button)
+        button_comeback = InlineKeyboardButton(text=NamesOfButtons.comeback_button, callback_data=NameOfCallbacks.callback_for_comeback_button+"key_word")
         right_button = InlineKeyboardButton(text=NamesOfButtons.right_button, callback_data=NameOfCallbacks.callback_for_right_button_key_words + f'{count}')
         left_button = InlineKeyboardButton(text=NamesOfButtons.left_button, callback_data=NameOfCallbacks.callback_for_left_button_key_words + f'{count}')
 
