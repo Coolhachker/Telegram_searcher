@@ -13,6 +13,7 @@ class SQLite3Client:
 
     def create_table(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS chats(id LONG INT, name_of_chat TEXT, url TEXT, PRIMARY KEY(url))""")
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS key_words(word TEXT, PRIMARY KEY(word))""")
         self.connection.commit()
 
     def add_chat_into_table(self, url: str):
@@ -32,6 +33,18 @@ class SQLite3Client:
         arguments = ', '.join(arguments)
 
         self.cursor.execute(f"""UPDATE chats SET {arguments} WHERE id = {chat_id}""")
+
+    def add_key_word(self, word: str):
+        self.cursor.execute("""INSERT INTO key_words(word) VALUES(?)""", (word, ))
+        self.connection.commit()
+
+    def delete_key_word(self, word: str):
+        self.cursor.execute(f"""DELETE FROM key_words WHERE word = "{word}" """)
+        self.connection.commit()
+
+    def get_key_words(self):
+        self.cursor.execute("""SELECT * FROM key_words""")
+        return self.cursor.fetchall()
 
 
 sqlite3_client = SQLite3Client()

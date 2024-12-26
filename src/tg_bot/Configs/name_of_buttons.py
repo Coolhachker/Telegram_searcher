@@ -9,3 +9,7 @@ class NamesOfButtons:
     comeback_button = "Вернуться"
     right_button = "⏩️"
     left_button = "⏪"
+    key_words_button = "📑 Ключевые слова"
+    add_key_world_button = "➕️ добавить ключевое слово"
+    delete_key_world_button = '➖️ удалить ключевое слово'
+    change_key_world_button = '🔄 Изменить ключевое слово'

@@ -4,7 +4,7 @@ from aiogram.types import Message
 
 from src.tg_bot.Configs.States import States
 from databases.sqlite import sqlite3_client
-from src.tg_bot.Configs.templates import save_url_message, incorrect_url_message, repeat_url
+from src.tg_bot.Configs.templates import save_url_message, incorrect_url_message, repeat_url, save_key_word_message, repeat_key_word
 from src.tg_bot.keyboards.start_keyboard import return_start_keyboard
 
 
@@ -23,3 +23,12 @@ def handle_states(dispatcher: Dispatcher, bot: Bot):
         else:
             await bot.send_message(message.chat.id, text=incorrect_url_message)
 
+    @dispatcher.message(States.get_key_word)
+    async def get_key_word(message: Message, state: FSMContext):
+        key_word = message.text
+        try:
+            sqlite3_client.add_key_word(key_word)
+            await bot.send_message(message.chat.id, save_key_word_message, reply_markup=return_start_keyboard())
+            await state.clear()
+        except:
+            await bot.send_message(message.chat.id, repeat_key_word)
