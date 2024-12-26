@@ -19,8 +19,8 @@ class SQLite3Client:
         self.cursor.execute("""INSERT INTO chats(url) VALUES(?)""", (url, ))
         self.connection.commit()
 
-    def delete_chat_from_table(self, chat_id: int):
-        self.cursor.execute(f"""DELETE FROM chats WHERE chat_id = {chat_id}""")
+    def delete_chat_from_table(self, url: str):
+        self.cursor.execute(f"""DELETE FROM chats WHERE url = "{url}" """)
         self.connection.commit()
 
     def get_chats(self):

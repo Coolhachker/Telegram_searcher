@@ -13,10 +13,10 @@ def handle_states(dispatcher: Dispatcher, bot: Bot):
     async def get_url_of_chat(message: Message, state: FSMContext):
         url = message.text
         if url.startswith('https://') or url.startswith('@'):
-            await state.clear()
             try:
                 sqlite3_client.add_chat_into_table(url)
                 await bot.send_message(message.chat.id, save_url_message, reply_markup=return_start_keyboard())
+                await state.clear()
             except:
                 await bot.send_message(message.chat.id, repeat_url)
 
