@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, ReplyKeyboardMarkup, KeyboardButton
-from src.Configs.name_of_buttons import NamesOfButtons
+from src.tg_bot.Configs.name_of_buttons import NamesOfButtons
 
 
 def return_start_keyboard() -> ReplyKeyboardMarkup:

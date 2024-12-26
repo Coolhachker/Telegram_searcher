@@ -1,6 +1,6 @@
 from aiogram import BaseMiddleware, Bot
 
-from src.Configs.templates import prohibition_message
+from src.tg_bot.Configs.templates import prohibition_message
 
 
 class MiddlewareFilterForAdmin(BaseMiddleware):
