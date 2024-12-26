@@ -5,15 +5,16 @@ from databases.sqlite import sqlite3_client
 class JsonEngine:
     @staticmethod
     def write(data: dict[str, dict]):
-        with open('data.json', "rw") as file:
+        with open('data.json', "r", encoding='utf-8') as file:
             json_data = json.load(file)
-            for key, value in data.keys():
+            for key, value in data.items():
                 json_data[key] = value
-            json.dump(json_data, file, indent=4)
+        with open('data.json', 'w', encoding='utf-8') as file:
+            json.dump(json_data, file, indent=4, ensure_ascii=False)
 
     @staticmethod
     def read():
-        with open('data.json', 'r') as file:
+        with open('data.json', 'r', encoding='utf-8') as file:
             json_data = json.load(file)
             return json_data
 
@@ -28,8 +29,8 @@ class JsonEngine:
                 'check_completely': 0
             }
 
-        with open('data.json', 'w') as file:
-            json.dump(dict_of_urls, file, indent=4)
+        with open('data.json', 'w', encoding='utf-8') as file:
+            json.dump(dict_of_urls, file, indent=4, ensure_ascii=False)
 
 
 

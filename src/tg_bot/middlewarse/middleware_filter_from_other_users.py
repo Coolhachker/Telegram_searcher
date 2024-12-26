@@ -10,7 +10,7 @@ class MiddlewareFilterForAdmin(BaseMiddleware):
         self.trust_users = ['CHT_VENDETTA']
 
     async def __call__(self, handler, event, data):
-        if event.chat.username in self.trust_users:
+        if (event.chat.username in self.trust_users) or (event.new_chat_members is not None):
             await handler(event, data)
         else:
             await self.bot.send_message(event.chat.id, prohibition_message)

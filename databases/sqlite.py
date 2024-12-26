@@ -14,8 +14,13 @@ class SQLite3Client:
     def create_table(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS chats(id LONG INT, name_of_chat TEXT, url TEXT, PRIMARY KEY(url))""")
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS key_words(word TEXT, PRIMARY KEY(word))""")
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS pid_table(pid INT UNSIGNED, PRIMARY KEY(pid))""")
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS pid_table(pid INT UNSIGNED)""")
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS admin_chats(chat_id INT, PRIMARY KEY(chat_id))""")
+
+        self.cursor.execute("""SELECT * FROM pid_table""")
+        if len(self.cursor.fetchall()) == 0:
+            self.cursor.execute("""INSERT INTO pid_table(pid) VALUES(?)""", (None,))
+
         self.connection.commit()
 
     def add_chat_into_table(self, url: str):
@@ -52,17 +57,27 @@ class SQLite3Client:
         self.cursor.execute(f"""UPDATE key_words SET word = "{new_key_word}" WHERE word = "{key_word}" """)
         self.connection.commit()
 
+    def get_pid(self):
+        self.cursor.execute("""SELECT * FROM pid_table""")
+        pid = self.cursor.fetchall()
+
+        if len(pid) != 0:
+            return pid[0][0]
+        else:
+            return None
+
     def add_pid(self, pid: int):
-        try:
-            self.cursor.execute("""INSERT INTO pid_table(pid) VALUES(?)""", (pid, ))
-        except:
-            self.cursor.execute(f"""UPDATE pid_table SET pid = {pid}""")
+        self.cursor.execute(f"""UPDATE pid_table SET pid = {pid}""")
 
         self.connection.commit()
 
     def add_admin_chat(self, chat_id: int):
         self.cursor.execute("""INSERT INTO admin_chats(chat_id) VALUES(?)""", (chat_id, ))
         self.connection.commit()
+
+    def get_admin_chats(self):
+        self.cursor.execute("""SELECT * FROM admin_chats""")
+        return self.cursor.fetchall()
 
 
 sqlite3_client = SQLite3Client()

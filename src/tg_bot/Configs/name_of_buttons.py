@@ -14,3 +14,5 @@ class NamesOfButtons:
     delete_key_world_button = '➖️ удалить ключевое слово'
     change_key_world_button = '🔄 Изменить ключевое слово'
     parser_button = '🔎 Парсер'
+    turn_on_button = '🟢 Включить парсер'
+    turn_off_parser = '🔴 Выключить парсер'

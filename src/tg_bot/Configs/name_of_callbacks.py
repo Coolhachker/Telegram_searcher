@@ -19,3 +19,6 @@ class NameOfCallbacks:
     callback_for_delete_key_word_index_button = 'delete_key_word_index='
 
     callback_for_change_key_word_index_button = 'change_key_word_index='
+
+    turn_off_parser = 'turn_off'
+    turn_on_parser = 'turn_on'

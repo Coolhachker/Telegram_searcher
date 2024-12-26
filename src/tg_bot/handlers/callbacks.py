@@ -11,6 +11,8 @@ from src.tg_bot.Configs.templates import \
      get_url_message,
      comeback_message,
      get_key_word_message,
+     parser_is_working_message,
+     parser_isnt_working_message
 )
 
 from src.tg_bot.keyboards.comeback_keyboard import return_comeback_keyboard
@@ -20,6 +22,11 @@ from src.tg_bot.keyboards.key_words_keyboard import return_key_words_keyboard
 from src.tg_bot.handlers.callback_under_functions.delete_chats import return_delete_chats_functions
 from src.tg_bot.handlers.callback_under_functions.delete_key_words import return_delete_functions_for_key_words
 from src.tg_bot.handlers.callback_under_functions.change_key_words import return_functions_for_change_key_word
+
+import subprocess
+import os
+
+from databases.sqlite import sqlite3_client
 
 
 def handle_callbacks(dispatcher: Dispatcher, bot: Bot):
@@ -43,4 +50,25 @@ def handle_callbacks(dispatcher: Dispatcher, bot: Bot):
     async def handle_callback_on_add_key_word_button(cq: CallbackQuery, state: FSMContext):
         await state.set_state(States.get_key_word)
         await bot.send_message(cq.message.chat.id, get_key_word_message, reply_markup=return_comeback_keyboard())
+
+    @dispatcher.callback_query(lambda cq: NameOfCallbacks.turn_on_parser == cq.data)
+    async def handle_callback_on_turn_on_parser(cq: CallbackQuery):
+        process = subprocess.Popen(['python3', 'main_telethon.py'])
+        pid = process.pid
+
+        sqlite3_client.add_pid(pid)
+
+        await bot.send_message(cq.message.chat.id, parser_is_working_message)
+
+    @dispatcher.callback_query(lambda cq: NameOfCallbacks.turn_off_parser == cq.data)
+    async def handle_callback_on_turn_off_parser(cq: CallbackQuery):
+        pid = sqlite3_client.get_pid()
+        if os.name == 'posix':
+            os.system(f'kill {pid}')
+        elif os.name == 'nt':
+            os.system(f'taskkill {pid}')
+
+        sqlite3_client.add_pid(0)
+
+        await bot.send_message(cq.message.chat.id, parser_isnt_working_message)
 
