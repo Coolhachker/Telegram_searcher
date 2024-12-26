@@ -25,6 +25,7 @@ class JsonEngine:
             dict_of_urls[url[2]] = {
                 'id': 0,
                 'message': '',
+                'check_completely': 0
             }
 
         with open('data.json', 'w') as file:

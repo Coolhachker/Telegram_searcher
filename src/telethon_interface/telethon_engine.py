@@ -4,7 +4,8 @@ from telethon import TelegramClient
 
 from databases.sqlite import sqlite3_client
 from src.json_buffer.Json_engine import JsonEngine
-from src.telethon_interface.check_message import check_message
+from src.telethon_interface.completly_check import complete_check
+from src.telethon_interface.real_time_processing import realtime_processing
 
 
 class TelethonEngine:
@@ -28,18 +29,12 @@ class TelethonEngine:
         return list_of_tasks
 
     async def center_of_processing_task(self, url: str):
-        while True:
-            json_data = JsonEngine.read()
-            data_of_chat = json_data[url]
-
-            message = await self.client.get_messages(url, offset_id=data_of_chat['id'], limit=1)
-            if check_message(message[0].message):
-                data_of_chat['id'] = message[0].id
-                while data_of_chat['message'] == '':
-                    await asyncio.sleep(.5)
-                data_of_chat['message'] = f"""Сообщение - {message[0].message}\nИз чата - {url}"""
-
-            await asyncio.sleep(.5)
+        json_data = JsonEngine.read()
+        data_of_chat = json_data[url]
+        if data_of_chat['check_completely'] == 0:
+            await complete_check(url, self.client)
+        else:
+            await realtime_processing(url, self.client)
 
 
 
