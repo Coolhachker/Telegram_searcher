@@ -9,7 +9,7 @@ from src.tg_bot.Configs.name_of_buttons import NamesOfButtons
 from src.tg_bot.Configs.templates import \
 (
      message_for_choose_delete_chat,
-     message_for_choose_delete_key_word,
+     message_on_success_chat_delete
 )
 
 
@@ -49,9 +49,9 @@ def return_delete_chats_functions(dispatcher: Dispatcher, bot: Bot):
         count -= 5
         await handle_callback_on_delete_chat(cq, count)
 
-    @dispatcher.callback_query(lambda cq: re.search(NameOfCallbacks.callback_for_delete_chat_index_button, cq.data))
+    @dispatcher.callback_query(lambda cq: re.findall(NameOfCallbacks.callback_for_delete_chat_index_button, cq.data))
     async def handle_callback_on_delete_chat_button(cq: CallbackQuery):
         key_url = sqlite3_client.get_chats()[int(cq.data.split('=')[1])][2]
         sqlite3_client.delete_chat_from_table(key_url)
 
-        await bot.send_message(cq.message.chat.id, message_for_choose_delete_key_word)
+        await bot.send_message(cq.message.chat.id, message_on_success_chat_delete)

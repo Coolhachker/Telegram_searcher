@@ -8,8 +8,8 @@ from src.tg_bot.Configs.name_of_callbacks import NameOfCallbacks
 from src.tg_bot.Configs.name_of_buttons import NamesOfButtons
 from src.tg_bot.Configs.templates import \
 (
-     message_on_success_chat_delete,
      message_for_choose_delete_key_word,
+     message_on_success_key_word_delete
 )
 
 from databases.sqlite import sqlite3_client
@@ -48,9 +48,9 @@ def return_delete_functions_for_key_words(dispatcher: Dispatcher, bot: Bot):
         count -= 5
         await handle_callback_on_delete_key_word_button(cq, count)
 
-    @dispatcher.callback_query(lambda cq: re.search(NameOfCallbacks.callback_for_delete_key_word_index_button, cq.data))
+    @dispatcher.callback_query(lambda cq: re.findall(NameOfCallbacks.callback_for_delete_key_word_index_button, cq.data))
     async def handle_callback_on_delete_chat_button(cq: CallbackQuery):
         key_word = sqlite3_client.get_key_words()[int(cq.data.split('=')[1])][0]
         sqlite3_client.delete_key_word(key_word)
 
-        await bot.send_message(cq.message.chat.id, message_on_success_chat_delete)
+        await bot.send_message(cq.message.chat.id, message_on_success_key_word_delete)
