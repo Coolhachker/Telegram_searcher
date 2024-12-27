@@ -12,7 +12,6 @@ async def complete_check(url: str, client: TelegramClient):
         json_data = JsonEngine.read()
         data_of_chat = json_data[url]
         message = await client.get_messages(url, offset_id=data_of_chat['id'], limit=1)
-        print(message)
         data_of_chat['id'] = message[0].id
         try:
             if check_message(message[0].message):
@@ -21,12 +20,8 @@ async def complete_check(url: str, client: TelegramClient):
                     await asyncio.sleep(.5)
 
                 entity = await client.get_entity(message[0].peer_id.channel_id)
-                print(entity)
                 data_of_chat['message'] = f"Сообщение - {message[0].message}\nИз чата - {url}\n"
-                if isinstance(entity, Chat) is False:
-                    data_of_chat['message'] += f"Ссылка на сообщение - {url}/{message[0].id}"
-                else:
-                    data_of_chat["message"] += f"Ссылка на сообщение - https://t.me/c/{message[0].peer_id.channel_id}/{message[0].id}"
+                data_of_chat["message"] += f"Ссылка на сообщение - https://t.me/c/{message[0].peer_id.channel_id}/{message[0].id}"
         except TypeError:
             data_of_chat['check_completely'] = 1
             json_data[url] = data_of_chat

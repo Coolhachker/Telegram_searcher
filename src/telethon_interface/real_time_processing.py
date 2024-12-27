@@ -11,10 +11,13 @@ async def realtime_processing(url: str, client: TelegramClient):
         data_of_chat = json_data[url]
 
         message = await client.get_messages(url, limit=1)
+        print(message)
         if check_message(message[0].message):
-            while data_of_chat['message'] == '':
+            while data_of_chat['message'] != '':
                 await asyncio.sleep(.5)
             data_of_chat['message'] = f"""Сообщение - {message[0].message}\nИз чата - {url}"""
-            JsonEngine.write(data_of_chat)
+            data_of_chat["message"] += f"Ссылка на сообщение - https://t.me/c/{message[0].peer_id.channel_id}/{message[0].id}"
+            json_data[url] = data_of_chat
+            JsonEngine.write(json_data)
 
-        await asyncio.sleep(.3)
+        await asyncio.sleep(.5)
