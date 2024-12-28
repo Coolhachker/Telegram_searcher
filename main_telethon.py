@@ -1,11 +1,11 @@
-import logging
+# import logging
 
 from src.telethon_interface.telethon_engine import TelethonEngine
 from databases.sqlite import sqlite3_client
-from logging import basicConfig
+# from logging import basicConfig
 import asyncio
 
-basicConfig(filename='log.log', filemode='w', level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+# basicConfig(filename='log.log', filemode='w', level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 if __name__ == '__main__':
