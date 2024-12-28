@@ -54,3 +54,4 @@ def return_delete_functions_for_key_words(dispatcher: Dispatcher, bot: Bot):
         sqlite3_client.delete_key_word(key_word)
 
         await bot.send_message(cq.message.chat.id, message_on_success_key_word_delete)
+        await handle_callback_on_delete_key_word_button(cq)

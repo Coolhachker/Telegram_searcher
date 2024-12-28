@@ -22,3 +22,10 @@ class NameOfCallbacks:
 
     turn_off_parser = 'turn_off'
     turn_on_parser = 'turn_on'
+
+    callback_for_add_member_into_ban_list_button = 'add_member_into_ban_list'
+    callback_for_delete_member_from_ban_list_button = "delete_member_from_ban_list"
+
+    callback_for_right_button_ban_list = "right_button_ban_list="
+    callback_for_left_button_ban_list = 'left_button_ban_list='
+    callback_for_delete_ban_list_index_button = 'delete_ban_list_index='

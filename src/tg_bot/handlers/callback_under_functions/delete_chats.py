@@ -55,3 +55,4 @@ def return_delete_chats_functions(dispatcher: Dispatcher, bot: Bot):
         sqlite3_client.delete_chat_from_table(key_url)
 
         await bot.send_message(cq.message.chat.id, message_on_success_chat_delete)
+        await handle_callback_on_delete_chat(cq)
