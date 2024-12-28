@@ -18,9 +18,13 @@ class JsonEngine:
 
     @staticmethod
     def read():
-        with open('data.json', 'r', encoding='utf-8') as file:
-            json_data = json.load(file)
-            return json_data
+        try:
+            with open('data.json', 'r', encoding='utf-8') as file:
+                json_data = json.load(file)
+                return json_data
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            with open('data.json', 'w', encoding='utf-8') as file:
+                file.write(json.dumps({}, indent=4, ensure_ascii=False))
 
     @staticmethod
     def setup_json_structure():

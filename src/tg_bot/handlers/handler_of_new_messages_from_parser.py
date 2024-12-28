@@ -20,7 +20,6 @@ async def handle_new_messages_from_parser(bot: Bot):
                 try:
                     data = json_data[url]
                     if data['message'] != '':
-                        print(json_data)
                         message = data['message']
 
                         data['message'] = ''
@@ -30,8 +29,6 @@ async def handle_new_messages_from_parser(bot: Bot):
                         await send_messages_into_admin_chats(message, admin_chats, bot)
                 except KeyError:
                     continue
-        except FileNotFoundError:
-            pass
-        except json.decoder.JSONDecodeError:
+        except (FileNotFoundError, TypeError, json.JSONDecodeError):
             pass
         await asyncio.sleep(.1)
