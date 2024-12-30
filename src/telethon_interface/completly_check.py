@@ -28,6 +28,8 @@ async def complete_check(url: str, client: TelegramClient):
                 data_of_chat = json_data[url]
                 data_of_chat['message'] = ''
 
+                await check_on_complete(message, data_of_chat, json_data, url, client)
+
                 wait_the_delete(url)
 
                 save_message_id(url, data_of_chat, json_data, message)
@@ -37,8 +39,6 @@ async def complete_check(url: str, client: TelegramClient):
                 entity_of_user = await client.get_entity(id_of_user)
                 entity_of_user = '' if not isinstance(entity_of_user, User) else entity_of_user
                 logger.info(f"Получение данных из сообщения - {url}\nmessage_id={message.id}")
-
-                await check_on_complete(message, data_of_chat, json_data, url, client)
 
                 data_of_chat = await process_message(message, data_of_chat, url, ban_list, entity_of_user)
 

@@ -60,6 +60,7 @@ def handle_callbacks(dispatcher: Dispatcher, bot: Bot):
     @dispatcher.callback_query(lambda cq: NameOfCallbacks.turn_on_parser == cq.data)
     async def handle_callback_on_turn_on_parser(cq: CallbackQuery):
         process = subprocess.Popen(['python3', 'main_telethon.py'])
+        # process = subprocess.Popen(['main_telethon.exe'])
         pid = process.pid
 
         sqlite3_client.add_pid(pid)
@@ -72,7 +73,7 @@ def handle_callbacks(dispatcher: Dispatcher, bot: Bot):
         if os.name == 'posix':
             os.system(f'kill {pid}')
         elif os.name == 'nt':
-            os.system(f'taskkill {pid}')
+            os.system(f'taskkill /f /PID{pid}')
 
         sqlite3_client.add_pid(0)
 
