@@ -12,7 +12,7 @@ import os
 
 class TelethonEngine:
     def __init__(self):
-        self.client = TelegramClient(api_id=19567654, api_hash='7ec7d44a4889e041dd667dc760b323e1', session='session.session')
+        self.client = TelegramClient(api_id=19567654, api_hash='7ec7d44a4889e041dd667dc760b323e1', session='session.session', system_version="4.16.30-vxCUSTOM")
         pid = os.getpid()
         sqlite3_client.add_pid(pid)
         JsonEngine.setup_json_structure()
