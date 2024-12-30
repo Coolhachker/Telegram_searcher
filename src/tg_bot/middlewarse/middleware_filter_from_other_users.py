@@ -7,7 +7,7 @@ class MiddlewareFilterForAdmin(BaseMiddleware):
     def __init__(self, bot: Bot):
         super().__init__()
         self.bot = bot
-        self.trust_users = ['CHT_VENDETTA', 'MarloyL0X']
+        self.trust_users = ['CHT_VENDETTA', 'MarloyL0X', 'Natyazhnye_potolki_1']
 
     async def __call__(self, handler, event, data):
         if (event.chat.username in self.trust_users) or (event.new_chat_members is not None):
