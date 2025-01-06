@@ -35,7 +35,7 @@ async def realtime_processing(url: str, client: TelegramClient):
 
         if check_message(message[0].message) and entity_of_user.username not in ban_list and (str(message[0].peer_id.channel_id)+"/"+str(message[0].id)) not in messages_in_admin_chats:
             data_of_chat['message'] = f"""Сообщение - {message[0].message}\nИз чата - {url}\n"""
-            data_of_chat["message"] += f"Ссылка на сообщение - https://t.me/c/{message[0].peer_id.channel_id}/{message[0].id}"
+            data_of_chat["message"] += f"""Ссылка на сообщение - https://t.me/c/{message[0].peer_id.channel_id}/{message[0].id}"""
             json_data[url] = data_of_chat
             JsonEngine.write(url, json_data[url])
 

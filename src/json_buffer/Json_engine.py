@@ -32,7 +32,10 @@ class JsonEngine:
         dict_of_urls: dict = {}
 
         urls_from_file = JsonEngine.read()
-        dict_of_urls = urls_from_file if len(urls_from_file) != 0 else dict_of_urls
+        try:
+            dict_of_urls = urls_from_file if len(urls_from_file) != 0 else dict_of_urls
+        except Exception:
+            pass
 
         urls_from_file_keys = urls_from_file.keys()
 
