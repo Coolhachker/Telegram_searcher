@@ -16,19 +16,10 @@ async def handle_new_messages_from_parser(bot: Bot):
         admin_chats = sqlite3_client.get_admin_chats()
         try:
             for url in urls:
-                json_data = JsonEngine.read()
-                try:
-                    data = json_data[url]
-                    if data['message'] != '':
-                        message = data['message']
-
-                        data['message'] = ''
-                        json_data[url] = data
-                        JsonEngine.write(url, data)
-
-                        await send_messages_into_admin_chats(message, admin_chats, bot)
-                except KeyError:
-                    continue
+                message = sqlite3_client.get_message(url)
+                if message != '':
+                    sqlite3_client.update_message(url, '')
+                    await send_messages_into_admin_chats(message, admin_chats, bot)
         except (FileNotFoundError, TypeError, json.JSONDecodeError):
             pass
         await asyncio.sleep(.1)

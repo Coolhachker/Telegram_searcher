@@ -1,11 +1,8 @@
-import time
-
 from telethon import TelegramClient
 from telethon.types import User
 import asyncio
 
-from src.json_buffer.Json_engine import JsonEngine
-
+from databases.sqlite import sqlite3_client
 
 from src.telethon_interface.under_functions_of_completly_check.get_messages import get_messages
 from src.telethon_interface.under_functions_of_completly_check.save_message_id import save_message_id
@@ -24,27 +21,21 @@ async def complete_check(url: str, client: TelegramClient):
         try:
             list_of_messages, ban_list = await get_messages(client, url)
             for message in list_of_messages:
-                json_data = JsonEngine.read()
-                data_of_chat = json_data[url]
-                data_of_chat['message'] = ''
+                await check_on_complete(message, url, client)
 
-                await check_on_complete(message, data_of_chat, json_data, url, client)
+                await wait_the_delete(url)
 
-                wait_the_delete(url)
-
-                save_message_id(url, data_of_chat, json_data, message)
+                save_message_id(url, message)
 
                 id_of_user = message.from_id.user_id
-                time.sleep(.3)
+                await asyncio.sleep(.3)
                 entity_of_user = await client.get_entity(id_of_user)
                 entity_of_user = '' if not isinstance(entity_of_user, User) else entity_of_user
                 logger.info(f"Получение данных из сообщения - {url}\nmessage_id={message.id}")
 
-                data_of_chat = await process_message(message, data_of_chat, url, ban_list, entity_of_user)
+                await process_message(message, url, ban_list, entity_of_user)
 
-                json_data[url] = data_of_chat
-                JsonEngine.write(url, json_data[url])
-                logger.info(f'Вывел информацию {json_data[url]} в json структуру - {url}')
+                logger.info(f'Сохранил информацию: message_id = {message.id}, message_text = {sqlite3_client.get_message(url)}, check_completely = {sqlite3_client.get_check_completely(url)}')
                 await asyncio.sleep(.1)
 
         except Exception as _ex:
