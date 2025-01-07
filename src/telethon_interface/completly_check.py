@@ -1,3 +1,5 @@
+import time
+
 from telethon import TelegramClient
 from telethon.types import User
 import asyncio
@@ -28,7 +30,7 @@ async def complete_check(url: str, client: TelegramClient):
                 save_message_id(url, message)
 
                 id_of_user = message.from_id.user_id
-                await asyncio.sleep(.3)
+                time.sleep(.3)
                 entity_of_user = await client.get_entity(id_of_user)
                 entity_of_user = '' if not isinstance(entity_of_user, User) else entity_of_user
                 logger.info(f"Получение данных из сообщения - {url}\nmessage_id={message.id}")
