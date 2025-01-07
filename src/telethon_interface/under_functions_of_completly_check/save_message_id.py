@@ -1,9 +1,5 @@
-from telethon import TelegramClient
 from telethon.types import Message
 import logging
-import time
-
-from src.json_buffer.Json_engine import JsonEngine
 from databases.sqlite import sqlite3_client
 
 logger = logging.getLogger()

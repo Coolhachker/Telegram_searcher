@@ -1,6 +1,5 @@
 from telethon.types import Message, User
 import logging
-import time
 
 from src.telethon_interface.check_message import check_message
 

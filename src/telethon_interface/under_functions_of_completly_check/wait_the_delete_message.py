@@ -1,5 +1,3 @@
-import time
-
 from databases.sqlite import sqlite3_client
 
 import asyncio
