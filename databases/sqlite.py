@@ -124,8 +124,11 @@ class SQLite3Client:
         return self.cursor.fetchall()[0][0]
 
     def get_message(self, url: str):
-        self.cursor.execute(f"""SELECT message FROM working_chat WHERE url = "{url}" """)
-        return self.cursor.fetchall()[0][0]
+        try:
+            self.cursor.execute(f"""SELECT message FROM working_chat WHERE url = "{url}" """)
+            return self.cursor.fetchall()[0][0]
+        except IndexError:
+            return ''
 
     def get_check_completely(self, url: str):
         self.cursor.execute(f"""SELECT check_completely FROM working_chat WHERE url = "{url}" """)

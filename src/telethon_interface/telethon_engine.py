@@ -22,7 +22,7 @@ class TelethonEngine:
 
     async def center_run_tasks(self):
         tasks = self.central_processing_of_registration_tasks()
-        await asyncio.gather(*tasks, return_exceptions=False)
+        await asyncio.gather(*tasks, return_exceptions=True)
 
     def central_processing_of_registration_tasks(self):
         list_of_chats = sqlite3_client.get_chats()
