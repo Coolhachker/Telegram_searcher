@@ -16,12 +16,15 @@ async def realtime_processing(url: str, client: TelegramClient):
         messages_in_admin_chats: list[str] = []
 
         for admin_chat in admins_chats:
-            messages = await client.get_messages(admin_chat, limit=30)
-            for message in messages:
-                if isinstance(message.message, str):
-                    match = re.findall('(\d+)/(\d+)', message.message)
-                    if len(match) != 0:
-                        messages_in_admin_chats.append(match[0][0]+'/'+match[0][1])
+            try:
+                messages = await client.get_messages(admin_chat, limit=30)
+                for message in messages:
+                    if isinstance(message.message, str):
+                        match = re.findall('(\d+)/(\d+)', message.message)
+                        if len(match) != 0:
+                            messages_in_admin_chats.append(match[0][0]+'/'+match[0][1])
+            except ValueError:
+                continue
             await asyncio.sleep(.3)
 
         message = await client.get_messages(url, limit=1)
